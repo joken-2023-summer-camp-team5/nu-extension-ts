@@ -1,0 +1,30 @@
+{
+    "name": "schedule_manager2",
+    "short_name": "スケマネ",
+    "version": "0.1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "nativeMessaging"
+    ],
+    "description": "履修中の授業をGoogleカレンダーに同期します。",
+    "content_scripts": [
+        {
+            "matches": [
+                "*://portal.uprx.ce.nihon-u.ac.jp/uprx/up/*/Pky00101.xhtml",
+                "*://portal.uprx.ce.nihon-u.ac.jp/uprx/up/*/Bsa00101.xhtml"
+            ],
+            "js": [
+                "js/main.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "action": {
+
+    },
+    "background": {
+        "service_worker": "js/background.js"
+    }
+}
