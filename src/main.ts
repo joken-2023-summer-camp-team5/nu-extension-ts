@@ -58,23 +58,28 @@ const fetchClassData = async () => {
     }
 
     matches.forEach(item => {
-        const [day, hour] = [...new Set(item.querySelector("span.period")?.textContent?.split(" "))];
-        const [startDateTime, endDateTime] = classDateTime(day, hour as classHourType);
-        events.push({
-            summary: item.querySelector("p.lessonTitle")?.textContent?.replace(/(\n|\t)/g, "") ?? "",
-            location: item.querySelector('div.lessonMain')?.children[1]?.children[1]?.textContent?.replace(/(\n|\t)/g, "") ?? "",
-            description: item.querySelector("div.lessonDetail")?.children[0]?.textContent?.replace(/(\n|\t)/g, "") ?? "",
-            start: {
-                dateTime: startDateTime,
-                timeZone: 'Asia/Tokyo'
-            },
-            end: {
-                dateTime: endDateTime,
-                timeZone: 'Asia/Tokyo'
-            },
-            meta: {
-                day: day
-            }
+        // const [day, hour] = [...new Set(item.querySelector("span.period")?.textContent?.split(" "))];
+        const dayWithHour = item.querySelectorAll("span.period");
+
+        dayWithHour.forEach(it=>{
+            const [day, hour] = [...it!.textContent!.split(" ")];
+            const [startDateTime, endDateTime] = classDateTime(day, hour as classHourType);
+            events.push({
+                summary: item.querySelector("p.lessonTitle")?.textContent?.replace(/(\n|\t)/g, "") ?? "",
+                location: item.querySelector('div.lessonMain')?.children[1]?.children[1]?.textContent?.replace(/(\n|\t)/g, "") ?? "",
+                description: item.querySelector("div.lessonDetail")?.children[0]?.textContent?.replace(/(\n|\t)/g, "") ?? "",
+                start: {
+                    dateTime: startDateTime,
+                    timeZone: 'Asia/Tokyo'
+                },
+                end: {
+                    dateTime: endDateTime,
+                    timeZone: 'Asia/Tokyo'
+                },
+                meta: {
+                    day: day
+                }
+            })
         })
     });
 
@@ -100,7 +105,6 @@ const exportRegisterGoogleCalendarLink = (events: ClassEvent[]) => {
         const convertTime = (time: string) => {
             const yyyyMMdd = time.split("T")[0].split("-").join("");
             const hours = (time.split("T")[1].split("+")[0].split(":").map(it => it.padStart(2, "0")).join(""));
-            console.log(hours);
             return `${yyyyMMdd}T${hours}Z`;
         }
 
