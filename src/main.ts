@@ -27,7 +27,7 @@ const nextDayOfDate = (day: string): Date => {
 
 const classDateTime = (day: string, hour: classHourType) => {
     const startDate = nextDayOfDate(day);
-    const endDate = nextDayOfDate(day);
+    const endDate = new Date(startDate.getTime());
     const classHour = classTime[hour];
     const startTime = classHour.split("-")[0];
     const endTime = classHour.split("-")[1];
@@ -99,8 +99,9 @@ const exportRegisterGoogleCalendarLink = (events: ClassEvent[]) => {
     events.forEach(it => {
         const convertTime = (time: string) => {
             const yyyyMMdd = time.split("T")[0].split("-").join("");
-            const hours = Number(time.split("T")[1].split("+")[0].split(":").join("")) + 90000;
-            return `${yyyyMMdd}T${hours}`;
+            const hours = (time.split("T")[1].split("+")[0].split(":").map(it => it.padStart(2, "0")).join(""));
+            console.log(hours);
+            return `${yyyyMMdd}T${hours}Z`;
         }
 
         const startTime = convertTime(it.start.dateTime);
