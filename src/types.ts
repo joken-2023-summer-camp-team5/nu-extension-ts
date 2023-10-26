@@ -11,5 +11,8 @@ export type ClassEvent = {
     description: string | null;  // 担当先生
     start: ClassDate;
     end: ClassDate;
-    meta: {day: string};
+    meta: {
+        day: string,
+        period: string
+    };
 }

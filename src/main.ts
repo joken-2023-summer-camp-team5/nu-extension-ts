@@ -77,7 +77,8 @@ const fetchClassData = async () => {
                     timeZone: 'Asia/Tokyo'
                 },
                 meta: {
-                    day: day
+                    day: day,
+                    period: hour
                 }
             })
         })
@@ -95,7 +96,7 @@ const exportRegisterGoogleCalendarLink = (events: ClassEvent[]) => {
 
     const wrapper = document.createElement("div");
     wrapper.setAttribute("id", "schedule_manager");
-    wrapper.innerHTML = "<h2><span class='span'>拡張機能</span></h2>"
+    wrapper.innerHTML = "<h2><span class='span'>カレンダー登録リンク</span></h2>"
     const ul = document.createElement("ul");
 
     const content = document.createElement("div");
@@ -113,11 +114,12 @@ const exportRegisterGoogleCalendarLink = (events: ClassEvent[]) => {
 
         const li = document.createElement("li");
         li.innerHTML = "<span class='fa fa-fw fa-external-link iconSizeLM'></span>";
+        li.style.margin = "8px"
         const link = document.createElement("a");
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${it.summary}&dates=${startTime}/${endTime}&details=${it.description}&location=${it.location}&trp=false`;
-        link.textContent = `「${it.summary}（${it.meta.day}）」をGoogleカレンダーに登録する。`;
+        link.textContent = `「${it.summary}（${it.meta.day} ${it.meta.period}）」`;
         li.appendChild(link);
         ul.appendChild(li);
     })
