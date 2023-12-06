@@ -137,3 +137,11 @@ chrome.runtime.onMessage.addListener(async (request, options) => {
     }
     return true;
 })
+
+
+const main = async () => {
+    const events = await fetchClassData();
+    exportRegisterGoogleCalendarLink(events);
+}
+
+main();
